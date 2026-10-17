@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Estética y Belleza</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="unidad_1.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Test de Estética y Belleza</h1>
+        <p>Grado Medio y Grado Superior</p>
+    </header>
+
+    <main class="contenedor">
+        <section id="inicio" class="panel">
+            <h2>¡Pon a prueba tus conocimientos!</h2>
+            <p>
+                Repasa los contenidos de Estética y Belleza y practica
+                con preguntas de nivel medio y superior.
+            </p>
+
+            <label for="modo">Selecciona el modo:</label>
+            <select id="modo">
+                <option value="normal">Modo normal</option>
+                <option value="aleatorio">Modo aleatorio</option>
+            </select>
+
+            <button id="empezar">Comenzar test</button>
+            <p class="informacion">
+                Cada pregunta tiene cuatro respuestas posibles.
+            </p>
+        </section>
+
+        <section id="zona-test" class="panel oculto">
+            <div class="estadisticas">
+                <span id="contador"></span>
+                <span id="aciertos">Aciertos: 0</span>
+            </div>
+
+            <div class="barra-fondo">
+                <div id="progreso"></div>
+            </div>
+
+            <p id="categoria" class="categoria"></p>
+            <h2 id="pregunta"></h2>
+
+            <div id="respuestas" class="respuestas"></div>
+
+            <p id="explicacion" class="explicacion oculto"></p>
+
+            <div class="botones">
+                <button id="anterior" class="secundario">Anterior</button>
+                <button id="siguiente">Siguiente</button>
+            </div>
+
+            <button id="reiniciar" class="reiniciar">Reiniciar test</button>
+        </section>
+
+        <section id="resultado" class="panel oculto">
+            <h2>¡Test finalizado!</h2>
+            <p id="nota" class="nota"></p>
+            <p id="resumen"></p>
+            <div id="revision"></div>
+            <button id="volver">Volver a empezar</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>Test de práctica de Estética y Belleza</p>
+    </footer>
+</body>
+</html>
