@@ -1,0 +1,281 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff4f7;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background: #873c62;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #ffe4ed;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 850px;
+    margin: 35px auto;
+    min-height: 55vh;
+}
+
+.panel {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(100, 40, 65, 0.10);
+}
+
+.panel h2 {
+    margin-bottom: 15px;
+    color: #873c62;
+}
+
+#inicio p {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+select {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #d9b5c4;
+    border-radius: 7px;
+    background: white;
+    font-size: 16px;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 12px 18px;
+    background: #b44f7c;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #873c62;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background: #b44f7c;
+}
+
+#empezar,
+#volver {
+    width: 100%;
+}
+
+.informacion {
+    color: #777;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.oculto {
+    display: none !important;
+}
+
+.estadisticas {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.barra-fondo {
+    width: 100%;
+    height: 10px;
+    background: #f2dce5;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+#progreso {
+    height: 100%;
+    width: 0;
+    background: #b44f7c;
+    transition: width 0.3s;
+}
+
+.categoria {
+    display: inline-block;
+    background: #fce7f0;
+    color: #873c62;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+#pregunta {
+    font-size: 22px;
+    line-height: 1.4;
+    margin-bottom: 22px;
+}
+
+.respuestas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.respuesta {
+    width: 100%;
+    text-align: left;
+    background: white;
+    color: #333;
+    border: 2px solid #e4d5dc;
+    padding: 14px;
+    line-height: 1.5;
+}
+
+.respuesta:hover:not(:disabled) {
+    background: #fff0f6;
+    border-color: #b44f7c;
+}
+
+.respuesta.correcta {
+    background: #dcfce7;
+    border-color: #16a34a;
+    color: #166534;
+}
+
+.respuesta.incorrecta {
+    background: #fee2e2;
+    border-color: #dc2626;
+    color: #991b1b;
+}
+
+.respuesta:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+.explicacion {
+    background: #fff4f7;
+    border-left: 4px solid #b44f7c;
+    padding: 12px;
+    margin-top: 18px;
+    border-radius: 4px;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.secundario {
+    background: #777;
+}
+
+.secundario:hover {
+    background: #555;
+}
+
+.reiniciar {
+    background: #a83250;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.reiniciar:hover {
+    background: #80223b;
+}
+
+.nota {
+    font-size: 32px;
+    font-weight: bold;
+    color: #873c62;
+    margin: 20px 0;
+}
+
+#resumen {
+    margin-bottom: 20px;
+}
+
+.revision-item {
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 7px;
+    background: #fff4f7;
+    overflow-wrap: anywhere;
+}
+
+.revision-item p {
+    margin-top: 6px;
+}
+
+.revision-bien {
+    border-left: 4px solid #16a34a;
+}
+
+.revision-mal {
+    border-left: 4px solid #dc2626;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .contenedor {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    #pregunta {
+        font-size: 19px;
+    }
+
+    .botones button {
+        flex: 1;
+        padding: 12px 8px;
+    }
+}
