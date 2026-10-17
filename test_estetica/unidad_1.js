@@ -194,3 +194,240 @@ console.log(
     "Grado Superior:",
     preguntas.filter(p => p.nivel === "Grado Superior").length
 );
+
+/* FUNCIONAMIENTO DEL TEST DE ESTÉTICA Y BELLEZA */
+
+const inicio = document.getElementById("inicio");
+const zonaTest = document.getElementById("zona-test");
+const resultado = document.getElementById("resultado");
+
+const botonEmpezar = document.getElementById("empezar");
+const botonAnterior = document.getElementById("anterior");
+const botonSiguiente = document.getElementById("siguiente");
+const botonReiniciar = document.getElementById("reiniciar");
+const botonVolver = document.getElementById("volver");
+
+const modo = document.getElementById("modo");
+const contador = document.getElementById("contador");
+const aciertos = document.getElementById("aciertos");
+const progreso = document.getElementById("progreso");
+const categoria = document.getElementById("categoria");
+const pregunta = document.getElementById("pregunta");
+const respuestas = document.getElementById("respuestas");
+const explicacion = document.getElementById("explicacion");
+
+const nota = document.getElementById("nota");
+const resumen = document.getElementById("resumen");
+const revision = document.getElementById("revision");
+
+let preguntasTest = [];
+let respuestasUsuario = [];
+let preguntaActual = 0;
+
+// Mezcla las preguntas para el modo aleatorio.
+function mezclarPreguntas(lista) {
+    const copia = [...lista];
+
+    for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
+    }
+
+    return copia;
+}
+
+// Comenzar el test.
+botonEmpezar.addEventListener("click", function () {
+    if (!Array.isArray(preguntas) || preguntas.length === 0) {
+        alert("No se han cargado las preguntas. Comprueba unidad_1.js.");
+        return;
+    }
+
+    if (modo.value === "aleatorio") {
+        preguntasTest = mezclarPreguntas(preguntas);
+    } else {
+        preguntasTest = [...preguntas];
+    }
+
+    respuestasUsuario = new Array(preguntasTest.length).fill(null);
+    preguntaActual = 0;
+
+    inicio.classList.add("oculto");
+    resultado.classList.add("oculto");
+    zonaTest.classList.remove("oculto");
+
+    mostrarPregunta();
+});
+
+// Mostrar la pregunta actual.
+function mostrarPregunta() {
+    const p = preguntasTest[preguntaActual];
+
+    if (!p) return;
+
+    contador.textContent =
+        "Pregunta " + (preguntaActual + 1) + " de " + preguntasTest.length;
+
+    categoria.textContent = p.categoria + " · " + p.nivel;
+    pregunta.textContent = p.pregunta;
+
+    progreso.style.width =
+        ((preguntaActual + 1) / preguntasTest.length * 100) + "%";
+
+    const totalAciertos = respuestasUsuario.reduce(
+        (total, respuesta, indice) => {
+            if (
+                respuesta !== null &&
+                respuesta === preguntasTest[indice].correcta
+            ) {
+                return total + 1;
+            }
+            return total;
+        },
+        0
+    );
+
+    aciertos.textContent = "Aciertos: " + totalAciertos;
+
+    respuestas.innerHTML = "";
+    explicacion.textContent = "";
+    explicacion.classList.add("oculto");
+
+    p.opciones.forEach(function (opcion, indice) {
+        const boton = document.createElement("button");
+        boton.textContent = opcion;
+        boton.type = "button";
+        boton.classList.add("respuesta");
+
+        if (respuestasUsuario[preguntaActual] !== null) {
+            boton.disabled = true;
+
+            if (indice === p.correcta) {
+                boton.classList.add("correcta");
+            }
+
+            if (indice === respuestasUsuario[preguntaActual] &&
+                indice !== p.correcta) {
+                boton.classList.add("incorrecta");
+            }
+        }
+
+        boton.addEventListener("click", function () {
+            if (respuestasUsuario[preguntaActual] !== null) return;
+
+            respuestasUsuario[preguntaActual] = indice;
+            mostrarPregunta();
+        });
+
+        respuestas.appendChild(boton);
+    });
+
+    if (respuestasUsuario[preguntaActual] !== null) {
+        explicacion.textContent = p.explicacion;
+        explicacion.classList.remove("oculto");
+    }
+
+    botonAnterior.disabled = preguntaActual === 0;
+
+    if (preguntaActual === preguntasTest.length - 1) {
+        botonSiguiente.textContent = "Finalizar test";
+    } else {
+        botonSiguiente.textContent = "Siguiente";
+    }
+}
+
+// Ir a la pregunta anterior.
+botonAnterior.addEventListener("click", function () {
+    if (preguntaActual > 0) {
+        preguntaActual--;
+        mostrarPregunta();
+    }
+});
+
+// Ir a la siguiente pregunta o finalizar.
+botonSiguiente.addEventListener("click", function () {
+    if (preguntaActual < preguntasTest.length - 1) {
+        preguntaActual++;
+        mostrarPregunta();
+    } else {
+        mostrarResultado();
+    }
+});
+
+// Mostrar nota y revisión.
+function mostrarResultado() {
+    zonaTest.classList.add("oculto");
+    resultado.classList.remove("oculto");
+
+    let totalAciertos = 0;
+    let totalFallos = 0;
+    let sinContestar = 0;
+
+    preguntasTest.forEach(function (p, indice) {
+        if (respuestasUsuario[indice] === null) {
+            sinContestar++;
+        } else if (respuestasUsuario[indice] === p.correcta) {
+            totalAciertos++;
+        } else {
+            totalFallos++;
+        }
+    });
+
+    const notaFinal = (totalAciertos / preguntasTest.length) * 10;
+
+    nota.textContent = "Nota: " + notaFinal.toFixed(2) + " / 10";
+
+    resumen.textContent =
+        "Aciertos: " + totalAciertos +
+        " · Fallos: " + totalFallos +
+        " · Sin contestar: " + sinContestar +
+        " · Total: " + preguntasTest.length;
+
+    revision.innerHTML = "<h3>Revisión de las preguntas</h3>";
+
+    preguntasTest.forEach(function (p, indice) {
+        const bloque = document.createElement("div");
+        bloque.classList.add("revision-pregunta");
+
+        const titulo = document.createElement("p");
+        titulo.textContent = (indice + 1) + ". " + p.pregunta;
+        bloque.appendChild(titulo);
+
+        const respuesta = document.createElement("p");
+        const elegida = respuestasUsuario[indice];
+
+        if (elegida === null) {
+            respuesta.textContent = "Sin contestar.";
+        } else if (elegida === p.correcta) {
+            respuesta.textContent = "Tu respuesta: " + p.opciones[elegida] + " ✓";
+        } else {
+            respuesta.textContent = "Tu respuesta: " + p.opciones[elegida] + " ✗";
+        }
+
+        bloque.appendChild(respuesta);
+
+        const correcta = document.createElement("p");
+        correcta.textContent = "Respuesta correcta: " + p.opciones[p.correcta];
+        bloque.appendChild(correcta);
+
+        const explicacionPregunta = document.createElement("p");
+        explicacionPregunta.textContent = p.explicacion;
+        bloque.appendChild(explicacionPregunta);
+
+        revision.appendChild(bloque);
+    });
+}
+
+// Reiniciar y volver al inicio.
+function reiniciarTest() {
+    zonaTest.classList.add("oculto");
+    resultado.classList.add("oculto");
+    inicio.classList.remove("oculto");
+
+    preguntasTest = [];
+    respuestasUsuario = [];
+    preguntaActual = 0;
+}
+
+botonReiniciar.addEventListener("click", reiniciarTest);
+botonVolver.addEventListener("click", reiniciarTest);
